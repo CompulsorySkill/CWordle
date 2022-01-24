@@ -11,6 +11,12 @@ public:
 	WordList(const char* file)
 	{
 		using namespace std;
+
+		// init random seed
+		random_device rd;
+		twister_engine = new mt19937(rd());
+
+		// load word file
 		ifstream in(file);
 		if (!in.is_open()) {
 			return;
@@ -23,9 +29,6 @@ public:
 			ccopy(ctemp, cword, N);
 			list.push_back(cword);
 		}
-
-		random_device rd;
-		twister_engine = new mt19937(rd());
 	}
 	~WordList()
 	{

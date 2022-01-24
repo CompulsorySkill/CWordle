@@ -31,5 +31,6 @@
     <None Include="5w.csv">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="Readme.md" />
   </ItemGroup>
 </Project>

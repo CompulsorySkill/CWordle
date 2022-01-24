@@ -3,9 +3,9 @@
 #include <string>
 
 enum class Status {
-	CR,	//ÕıÈ·
-	WR,	//´íÎó
-	PR	//Î»ÖÃ´íÎó
+	CR,	//[CoRrect] true letter
+	WR,	//[WRong]	false letter
+	PR	//[Position wRong]	false letter but exists in word
 };
 
 template<int N>
