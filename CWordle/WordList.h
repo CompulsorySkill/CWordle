@@ -41,6 +41,15 @@ public:
 	{
 		return list.size();
 	}
+	int indexOf(const char *key)
+	{
+		for (int i = 0; i < list.size(); i++) {
+			if (ccompare(key, list.at(i), N) == 0) {
+				return i;
+			}
+		}
+		return 0;
+	}
 	Wordle<N> generateWordle() const
 	{
 		using namespace std;
@@ -55,6 +64,17 @@ protected:
 		for (size_t i = 0; i < n; i++) {
 			target[i] = source[i];
 		}
+	}
+	static int ccompare(const char *source, char *target, size_t n)
+	{
+		for (size_t i = 0; i < n; i++) {
+			if (source[i] == target[i]) {
+				continue;
+			} else {
+				return source[i] - target[i];
+			}
+		}
+		return 0;
 	}
 private:
 	std::vector<char*> list{};

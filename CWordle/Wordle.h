@@ -17,17 +17,47 @@ public:
 			this->answer[i] = answer[i];
 		}
 	}
-	bool askForGuess(char* input, std::vector<Status> &out) const
+	bool askForGuess(const char *input, std::vector<Status> &out) const
 	{
 		out.clear();
 		bool success = true;
+
 		for (int i = 0; i < N; i++) {
-			Status res = askForStatus(i, input[i]);
-			out.push_back(res);
-			if (success && res != Status::CR) {
-				success = false;
+			if (input[i] == answer[i]) {
+				out.push_back(Status::CR);
+				out[i] = Status::CR;
+			} else {
+				bool set = false;
+				for (int j = 0; j < N; j++) {
+					if (j != i && answer[j] == input[i]) {
+						out.push_back(Status::PR);
+						set = true;
+						break;
+					}
+				}
+				if (!set) {
+					out.push_back(Status::WR);
+				}
+				if (success) {
+					success = false;
+				}
 			}
 		}
+
+		for (int i = 0; i < N; i++) {
+			if (out.at(i) == Status::PR) {
+				bool realPR = false;
+				for (int j = 0; j < N; j++) {
+					if (answer[j] == input[i] && out.at(j) != Status::CR) {
+						realPR = true;
+					}
+				}
+				if (!realPR) {
+					out[i] = Status::WR;
+				}
+			}
+		}
+
 		return success;
 	}
 	std::string getAnswer() const
@@ -39,21 +69,7 @@ public:
 		return answer;
 	}
 protected:
-	Status askForStatus(size_t pos, char input) const
-	{
-		if (answer[pos] == input) {
-			return Status::CR;
-		}
-		else
-		{
-			for (int i = 0; i < N; i++) {
-				if (answer[i] == input) {
-					return Status::PR;
-				}
-			}
-			return Status::WR;
-		}
-	}
+
 private:
 	char answer[N];
 };
